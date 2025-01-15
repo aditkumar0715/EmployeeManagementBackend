@@ -8,7 +8,7 @@ exports.auth = async (req, res, next) => {
     const token =
       req.cookies.token ||
       req.body.token ||
-      req.header("Authorization").replace("Bearer", "");
+      req.header("Authorization").replace("Bearer ", "");
 
     if (!token) {
       return res.status(401).json({
@@ -19,17 +19,25 @@ exports.auth = async (req, res, next) => {
 
     // verify token
     try {
-      const decode = jwt.verify(token, process.env.JWT_SECRET);
-      console.log(decode);
-      req.user = decode;
+      const decode = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+      // console.log("Printing decode", decode);
+      const user = await User.findById(decode?.id).select("-password");
+      // console.log("printing the user", user);
+      if (!user) {
+        res.status(401).json({
+          success: false,
+          message: "Invalid token, verification failed",
+        });
+      }
+      req.user = user;
+      next()
     } catch (error) {
       // verification unsuccessfull
       return res.status(401).json({
         success: false,
-        message: "token is invalid",
+        message: "",
       });
     }
-    next();
   } catch (error) {
     return res.status(401).json({
       success: false,
@@ -37,7 +45,6 @@ exports.auth = async (req, res, next) => {
     });
   }
 };
-
 
 // isEmployee
 exports.isEmployee = async (req, res, next) => {
@@ -57,8 +64,6 @@ exports.isEmployee = async (req, res, next) => {
     });
   }
 };
-
-
 
 // isEmployer
 exports.isEmployer = async (req, res, next) => {

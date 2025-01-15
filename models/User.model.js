@@ -26,13 +26,6 @@ const userSchema = new mongoose.Schema({
     enum: ["Employer", "Employee"],
     required: true,
   },
-  token:{
-    type: String,
-  },
-
 });
 
 module.exports = mongoose.model("User", userSchema);
-
-
-

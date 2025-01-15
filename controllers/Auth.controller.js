@@ -44,7 +44,6 @@ exports.signup = async (req, res) => {
     // hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    
     const user = await User.create({
       firstName,
       lastName,
@@ -52,7 +51,7 @@ exports.signup = async (req, res) => {
       password: hashedPassword,
       accountType,
     });
-    user.password = "password removed due to security issues.";
+    user.password = "removed due to security issues.";
     // return res
     return res.status(200).json({
       success: true,
@@ -99,16 +98,17 @@ exports.login = async (req, res) => {
         accountType: user.accountType,
       };
       const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "2h",
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
       });
 
       user.token = token;
-      user.password = undefined;
+      user.password = "removed due to security issues.";
 
       // create cookie and send response
       const options = {
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
         httpOnly: true,
+        secure: true,
       };
       res.cookie("token", token, options).status(200).json({
         success: true,
@@ -130,3 +130,20 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.logout = async (req, res) => {
+  try {
+    const options = {
+        httpOnly: true,
+        secure: true,
+      };
+    return res.status(200).clearCookie("token", options).json({
+      success: true,
+      message: "Logout successful"
+    })
+  } catch (error) {
+    return res.status(401).json({
+      success: false,
+      message: "Unable to logout please try again later"
+    })
+  }
+};

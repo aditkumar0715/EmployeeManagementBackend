@@ -6,7 +6,6 @@ const { dbConnect } = require("./config/database");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
-
 const userRoutes = require("./routes/User.routes");
 
 //load config from env file
@@ -26,7 +25,6 @@ app.use(
   })
 );
 
-
 app.use("/api/v1/auth", userRoutes);
 
 // default route
@@ -41,7 +39,3 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server started at ${PORT}`);
 });
-
-
-
-
