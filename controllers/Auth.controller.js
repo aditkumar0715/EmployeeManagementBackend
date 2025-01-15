@@ -1,7 +1,6 @@
 const User = require("../models/User.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const Profile = require("../models/Profile.model");
 
 // signup
 exports.signup = async (req, res) => {
@@ -14,7 +13,6 @@ exports.signup = async (req, res) => {
       password,
       confirmPassword,
       accountType,
-      employer,
     } = req.body;
 
     // validate the data
@@ -46,21 +44,13 @@ exports.signup = async (req, res) => {
     // hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // create entry in DB
-    const profileDetails = await Profile.create({
-      gender: null,
-      dateOfBirth: null,
-      about: null,
-      contactNumber: null,
-    });
+    
     const user = await User.create({
       firstName,
       lastName,
       email,
       password: hashedPassword,
       accountType,
-      employer,
-      additionalDetails: profileDetails._id,
     });
     user.password = "password removed due to security issues.";
     // return res
@@ -140,18 +130,3 @@ exports.login = async (req, res) => {
   }
 };
 
-// changePassword
-exports.changePassword = async (req, res) => {
-  // get data from req body
-
-  // get oldPassword, newPassword, confirmNewPassword
-  const { oldPassword, newPassword, confirmNewPassword } = req.body;
-
-  // validation
-
-  // update password in DB
-
-  // send mail - password updated
-
-  // return response
-};

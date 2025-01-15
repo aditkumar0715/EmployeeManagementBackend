@@ -7,7 +7,6 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 
-const profileRoutes = require("./routes/Profile.routes");
 const userRoutes = require("./routes/User.routes");
 
 //load config from env file
@@ -28,7 +27,6 @@ app.use(
 );
 
 
-app.use("/api/v1/profile", profileRoutes);
 app.use("/api/v1/auth", userRoutes);
 
 // default route

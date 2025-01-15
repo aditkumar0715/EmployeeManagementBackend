@@ -26,20 +26,8 @@ const userSchema = new mongoose.Schema({
     enum: ["Employer", "Employee"],
     required: true,
   },
-  additionalDetails: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: "Profile",
-  },
-  employer:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
   token:{
     type: String,
-  },
-  resetPasswordExpires: {
-    type: Date,
   },
 
 });

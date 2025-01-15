@@ -39,14 +39,14 @@ exports.auth = async (req, res, next) => {
 };
 
 
-// isStudent
-exports.isStudent = async (req, res, next) => {
+// isEmployee
+exports.isEmployee = async (req, res, next) => {
   // get data from req body
   try {
-    if (req.user.accountType !== "Student") {
+    if (req.user.accountType !== "Employee") {
       return res.status(401).json({
         success: false,
-        message: "The route is protected for students only",
+        message: "The route is protected for Employees only",
       });
     }
     next();
@@ -59,34 +59,15 @@ exports.isStudent = async (req, res, next) => {
 };
 
 
-// isInstructor
-exports.isInstructor = async (req, res, next) => {
+
+// isEmployer
+exports.isEmployer = async (req, res, next) => {
   // get data from req body
   try {
-    if (req.user.accountType !== "Instructor") {
+    if (req.user.accountType !== "Employer") {
       return res.status(401).json({
         success: false,
-        message: "The route is protected for instructor only",
-      });
-    }
-    next();
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "User role can not be verified",
-    });
-  }
-};
-
-
-// isAdmin
-exports.isAdmin = async (req, res, next) => {
-  // get data from req body
-  try {
-    if (req.user.accountType !== "Admin") {
-      return res.status(401).json({
-        success: false,
-        message: "The route is protected for Admin only",
+        message: "The route is protected for Employer only",
       });
     }
     next();
