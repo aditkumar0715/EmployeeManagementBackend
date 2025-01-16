@@ -30,7 +30,7 @@ exports.auth = async (req, res, next) => {
         });
       }
       req.user = user;
-      next()
+      next();
     } catch (error) {
       // verification unsuccessfull
       return res.status(401).json({
@@ -41,7 +41,8 @@ exports.auth = async (req, res, next) => {
   } catch (error) {
     return res.status(401).json({
       success: false,
-      message: "something went wrong while validating the token",
+      message: "Unable to validate token",
+      error: error.message,
     });
   }
 };
@@ -60,7 +61,8 @@ exports.isEmployee = async (req, res, next) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "User role can not be verified",
+      message: "Unable to verify user role",
+      error: error.message,
     });
   }
 };
@@ -79,7 +81,8 @@ exports.isEmployer = async (req, res, next) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "User role can not be verified",
+      message: "Unable to verify user role",
+      error: error.message,
     });
   }
 };

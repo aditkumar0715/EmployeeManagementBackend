@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 const userRoutes = require("./routes/User.routes");
+const departmentRoutes = require("./routes/department.routes");
 
 //load config from env file
 require("dotenv").config();
@@ -26,6 +27,7 @@ app.use(
 );
 
 app.use("/api/v1/auth", userRoutes);
+app.use("/api/v1/department", departmentRoutes);
 
 // default route
 app.get("/", (req, res) => {

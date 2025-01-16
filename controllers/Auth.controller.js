@@ -63,6 +63,7 @@ exports.signup = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "User cannot be registered. Please try again",
+      error: error.message,
     });
   }
 };
@@ -126,6 +127,7 @@ exports.login = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Login failed, please try again",
+      error: error.message,
     });
   }
 };
@@ -133,17 +135,18 @@ exports.login = async (req, res) => {
 exports.logout = async (req, res) => {
   try {
     const options = {
-        httpOnly: true,
-        secure: true,
-      };
+      httpOnly: true,
+      secure: true,
+    };
     return res.status(200).clearCookie("token", options).json({
       success: true,
-      message: "Logout successful"
-    })
+      message: "Logout successful",
+    });
   } catch (error) {
     return res.status(401).json({
       success: false,
-      message: "Unable to logout please try again later"
-    })
+      message: "Unable to logout please try again later",
+      error: error.message,
+    });
   }
 };
