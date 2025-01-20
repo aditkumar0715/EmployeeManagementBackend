@@ -102,7 +102,6 @@ exports.login = async (req, res) => {
         expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
       });
 
-      user.token = token;
       user.password = "removed due to security issues.";
 
       // create cookie and send response
@@ -113,6 +112,7 @@ exports.login = async (req, res) => {
       };
       res.cookie("token", token, options).status(200).json({
         success: true,
+        token,
         user,
         message: "Logged in successfully",
       });
