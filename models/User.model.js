@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
     default: "Employee",
     enum: ["Employer", "Employee"],
     required: true,
-  },
+  }
 });
 
 module.exports = mongoose.model("User", userSchema);
