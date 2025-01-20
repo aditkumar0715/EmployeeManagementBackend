@@ -104,3 +104,71 @@ exports.addEmployee = async (req, res) => {
     });
   }
 };
+
+exports.removeEmployee = async (req, res) => {
+  try {
+    const { empId } = req.params;
+    if (!empId) {
+      return res.status(401).json({
+        success: false,
+        message: "id not found in params",
+      });
+    }
+
+    // fetch employee from db
+    const employee = await Employee.findById(empId)
+      .populate("details")
+      .populate("department")
+      .exec();
+
+    if (!employee) {
+      return res.status(401).json({
+        success: false,
+        message: "employ with this id does not exist",
+      });
+    }
+
+    // find Object id of user
+    const details = employee?.details?._id.toString();
+    // delete the user
+    const user = await User.findByIdAndDelete(details);
+    console.log("user deleted: ", user);
+    //TODO delete all of the tasks
+
+    // delete the employee
+    const employeeDel = await Employee.findByIdAndDelete(empId);
+    console.log("employee deleted: ", employeeDel);
+
+    return res.status(200).json({
+      success: true,
+      message: "employee removed successfully",
+      removedEmployee: employee,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      message: "Unable to remove Employee",
+      error: error.message,
+    });
+  }
+};
+
+exports.getAllEmployee = async (req, res) => {
+  try {
+    const employees = await Employee.find({})
+      .populate("department")
+      .populate("details")
+      .exec();
+    return res.status(200).json({
+      success: true,
+      message: "fetched all employees",
+      data: employees,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      message: "Unable to fetch all employees",
+      error: error.message,
+    });
+  }
+};
