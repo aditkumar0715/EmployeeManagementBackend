@@ -19,3 +19,5 @@ const taskSchema = mongoose.Schema({
     ref: "Employee",
   },
 });
+
+module.exports = mongoose.model("Task", taskSchema);
