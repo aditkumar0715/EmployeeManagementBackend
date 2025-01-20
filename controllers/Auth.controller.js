@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 // signup
-exports.signup = async (req, res) => {
+exports.signup = async (req, res, next) => {
   try {
     // data fetch from request body
     const {
@@ -60,9 +60,9 @@ exports.signup = async (req, res) => {
     });
   } catch (error) {
     console.log("Error while doing signup", error);
-    return res.status(500).json({
+    return res.status(501).json({
       success: false,
-      message: "User cannot be registered. Please try again",
+      message: "Unable to register user",
       error: error.message,
     });
   }
@@ -87,7 +87,7 @@ exports.login = async (req, res) => {
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: "User is not registered please signup first",
+        message: "User is not registered",
       });
     }
 
@@ -124,9 +124,9 @@ exports.login = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    return res.status(500).json({
+    return res.status(501).json({
       success: false,
-      message: "Login failed, please try again",
+      message: "Unable to login",
       error: error.message,
     });
   }
@@ -143,9 +143,9 @@ exports.logout = async (req, res) => {
       message: "Logout successful",
     });
   } catch (error) {
-    return res.status(401).json({
+    return res.status(501).json({
       success: false,
-      message: "Unable to logout please try again later",
+      message: "Unable to logout",
       error: error.message,
     });
   }

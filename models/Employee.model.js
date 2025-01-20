@@ -12,12 +12,20 @@ const employeeSchema = mongoose.Schema({
     required: true,
   },
   details: {
-    type: mongosoe.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
   tasks: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Task",
+  },
+  contact: {
+    type: String,
+    trim: true,
+  },
+  salary: {
+    type: String,
+    trim: true,
   },
 });
 

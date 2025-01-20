@@ -4,7 +4,7 @@ const Department = require("../models/Department.model");
 exports.createDepartment = async (req, res) => {
   try {
     // get name and description of the department
-    const { name, description="" } = req.body;
+    const { name, description = "" } = req.body;
     // validation
     if (!name) {
       res.status(401).json({
@@ -93,7 +93,7 @@ exports.updateDepartment = async (req, res) => {
       });
     }
     // get name and description
-    const { name, description="" } = req.body;
+    const { name, description = "" } = req.body;
     // console.log("Got name and description: \n", name, description);
     // validate name
     if (!name) {
