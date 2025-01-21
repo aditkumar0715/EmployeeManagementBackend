@@ -13,6 +13,7 @@ const taskSchema = mongoose.Schema({
   isDone: {
     type: Boolean,
     trim: true,
+    default: false,
   },
   assignedTo: {
     type: mongoose.Schema.Types.ObjectId,

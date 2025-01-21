@@ -9,6 +9,7 @@ const cors = require("cors");
 const userRoutes = require("./routes/User.routes");
 const departmentRoutes = require("./routes/Department.routes");
 const employeeRoutes = require("./routes/Employee.routes");
+const taskRoutes = require("./routes/Task.routes");
 
 //load config from env file
 require("dotenv").config();
@@ -31,6 +32,7 @@ app.use(
 app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/department", departmentRoutes);
 app.use("/api/v1/employee", employeeRoutes);
+app.use("/api/v1/task", taskRoutes);
 
 // default route
 app.get("/", (req, res) => {
