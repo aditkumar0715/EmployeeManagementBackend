@@ -153,22 +153,12 @@ exports.removeEmployee = async (req, res) => {
   }
 };
 
-exports.getAllEmployee = async (req, res) => {
-  try {
-    const employees = await Employee.find({})
-      .populate("department")
-      .populate("details")
-      .exec();
+exports.getEmployee = async (req, res) => {
+    
     return res.status(200).json({
       success: true,
-      message: "fetched all employees",
-      data: employees,
+      message: "fetched employees",
+      data: res.paginatedResult,
     });
-  } catch (error) {
-    res.status(501).json({
-      success: false,
-      message: "Unable to fetch all employees",
-      error: error.message,
-    });
-  }
+
 };

@@ -1,14 +1,21 @@
 const router = require("express").Router();
+const Employee = require("../models/Employee.model");
+const populateFields = ["department", "details"];
 
+// controllers
 const {
   addEmployee,
   removeEmployee,
-  getAllEmployee,
+  getEmployee,
 } = require("../controllers/Employee.controller");
-const { auth, isEmployer } = require("../middlewares/auth.middleware");
 
+// middlewares
+const { auth, isEmployer } = require("../middlewares/auth.middleware");
+const { paginate } = require("../middlewares/paginate.middleware");
+
+// employee routes
 router.post("/add", auth, isEmployer, addEmployee);
 router.delete("/remove/:empId", auth, isEmployer, removeEmployee);
-router.get("/all", auth, isEmployer, getAllEmployee);
+router.get("/get", auth, isEmployer, paginate(Employee, populateFields), getEmployee);
 
 module.exports = router;
