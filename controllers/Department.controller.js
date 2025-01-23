@@ -4,7 +4,7 @@ const Department = require("../models/Department.model");
 exports.createDepartment = async (req, res) => {
   try {
     // get name and description of the department
-    const { name, description = "" } = req.body;
+    const { name, description = "", status = false } = req.body;
     // validation
     if (!name) {
       res.status(401).json({
@@ -13,7 +13,7 @@ exports.createDepartment = async (req, res) => {
       });
     }
     // create department in database
-    const department = await Department.create({ name, description });
+    const department = await Department.create({ name, description, status });
     // console.log(department);
     // send response
     res.status(200).json({
@@ -123,19 +123,10 @@ exports.updateDepartment = async (req, res) => {
 };
 
 // get all department controller
-exports.getAllDepartments = async (req, res) => {
-  try {
-    const department = await Department.find({});
-    res.status(200).json({
-      success: true,
-      message: "fetched all departments",
-      data: department,
-    });
-  } catch (error) {
-    res.status(501).json({
-      success: false,
-      message: "Unable to get departments",
-      error: error.message,
-    });
-  }
+exports.getDepartments = async (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "fetched departments",
+    data: res.paginatedResult,
+  });
 };

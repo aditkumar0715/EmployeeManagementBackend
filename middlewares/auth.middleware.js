@@ -18,26 +18,19 @@ exports.auth = async (req, res, next) => {
     }
 
     // verify token
-    try {
-      const decode = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-      // console.log("Printing decode", decode);
-      const user = await User.findById(decode?.id).select("-password");
-      // console.log("printing the user", user);
-      if (!user) {
-        res.status(401).json({
-          success: false,
-          message: "Invalid token, verification failed",
-        });
-      }
-      req.user = user;
-      next();
-    } catch (error) {
-      // verification unsuccessfull
-      return res.status(401).json({
+
+    const decode = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    // console.log("Printing decode", decode);
+    const user = await User.findById(decode?.id).select("-password");
+    // console.log("printing the user", user);
+    if (!user) {
+      res.status(401).json({
         success: false,
-        message: "",
+        message: "Invalid token, verification failed",
       });
     }
+    req.user = user;
+    next();
   } catch (error) {
     return res.status(401).json({
       success: false,

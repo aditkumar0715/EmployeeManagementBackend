@@ -9,7 +9,12 @@ const departmentSchema = mongoose.Schema({
   description: {
     type: String,
     trim: true,
-  }
-})
+  },
+  status: {
+    type: Boolean,
+    default: false,
+    required: true,
+  },
+});
 
 module.exports = mongoose.model("Department", departmentSchema);
