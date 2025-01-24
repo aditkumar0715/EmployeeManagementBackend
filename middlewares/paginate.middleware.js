@@ -3,12 +3,11 @@ exports.paginate = (model, populateFields) => {
     let page = parseInt(req.query.page);
     let limit = parseInt(req.query.limit);
 
-
-    if(!page){
+    if (!page) {
       page = 1;
     }
 
-    if(!limit){
+    if (!limit) {
       limit = 5;
     }
 
@@ -32,6 +31,7 @@ exports.paginate = (model, populateFields) => {
     }
 
     try {
+      result.total = await model.countDocuments();
       result.result = await model
         .find({})
         .limit(limit)
