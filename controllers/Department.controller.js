@@ -93,7 +93,7 @@ exports.updateDepartment = async (req, res) => {
       });
     }
     // get name and description
-    const { name, description = "" } = req.body;
+    const { name, description = "", status = false } = req.body;
     // console.log("Got name and description: \n", name, description);
     // validate name
     if (!name) {
@@ -105,7 +105,7 @@ exports.updateDepartment = async (req, res) => {
     // update data in database
     const updatedDepartment = await Department.findByIdAndUpdate(
       id,
-      { name, description },
+      { name, description, status },
       { new: true }
     );
     res.status(200).json({
