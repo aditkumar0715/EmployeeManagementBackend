@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 
 const { dbConnect } = require("./config/database");
+const { connectCloudinary } = require("./config/cloudinary");
 
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -18,8 +19,12 @@ const PORT = process.env.PORT || 5000;
 // connect to the database
 dbConnect();
 
+// connect to cloudinary
+connectCloudinary();
+
 // middlewares
 app.use(express.json());
+app.use(express.static("public"))
 app.use(cookieParser());
 app.use(
   cors({

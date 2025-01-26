@@ -12,7 +12,7 @@ exports.addEmployee = async (req, res) => {
       email,
       password,
       confirmPassword,
-      accountType,
+      accountType = "Employee",
       jobRole,
       department,
       contact = "",
