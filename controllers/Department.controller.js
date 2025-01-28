@@ -66,6 +66,12 @@ exports.getDepartmentById = async (req, res) => {
       });
     }
     const department = await Department.findById(id);
+    if (!department) {
+      res.status(401).json({
+        success: false,
+        message: "department with given id does not exists",
+      });
+    }
     res.status(200).json({
       success: true,
       message: "fetched department details",

@@ -154,11 +154,43 @@ exports.removeEmployee = async (req, res) => {
 };
 
 exports.getEmployee = async (req, res) => {
-    
-    return res.status(200).json({
-      success: true,
-      message: "fetched employees",
-      data: res.paginatedResult,
-    });
+  return res.status(200).json({
+    success: true,
+    message: "fetched employees",
+    data: res.paginatedResult,
+  });
+};
 
+exports.getEmployeeById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      res.status(401).json({
+        success: false,
+        message: "id not found",
+      });
+    }
+    const employee = await Employee.findById(id)
+      .populate("department")
+      .populate("details")
+      .exec();
+    if(!employee){
+      res.status(401).json({
+        success: false,
+        message: "employee with given id does not exists"
+      })
+    }
+    res.status(200).json({
+      success: true,
+      message: "fetched employee details",
+      data: employee,
+    });
+  } catch (error) {
+    console.log("Error while fetching employee by id", error)
+    res.status(501).json({
+      success: false,
+      message: "Unable to get emplyee details please try again",
+      error: error.message,
+    });
+  }
 };
