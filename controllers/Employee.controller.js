@@ -127,35 +127,43 @@ exports.updateEmployee = async (req, res) => {
       salary,
       profileImg,
     } = req.body;
-    // console.log("Got name and description: \n", name, description);
-    // validate name
-    if (
-      !firstName ||
-      !lastName ||
-      !email ||
-      !jobRole ||
-      !department
-    ) {
+
+    // validation
+    if (!firstName || !lastName || !email || !jobRole || !department) {
       res.status(401).json({
         success: false,
         message: "Fill all the required fields",
       });
     }
+
+    // get employee
+    const employee = await Employee.findById(id);
+    // console.log(employee);
+
     // update data in database
+
+
+    // update details
+    const updatedDetails = await User.findByIdAndUpdate(
+      employee.details,
+      { firstName, lastName, email, profileImg },
+      { new: true }
+    );
+    
+    // update employee
     const updatedEmployee = await Employee.findByIdAndUpdate(
       id,
       {
-        firstName,
-        lastName,
-        email,
         jobRole,
         department,
         contact,
         salary,
-        profileImg,
       },
       { new: true }
-    ).populate("details").populate("department").exec();
+    )
+      .populate("details")
+      .populate("department")
+      .exec();
     res.status(200).json({
       success: true,
       message: "Employee updated successfully",
