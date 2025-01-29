@@ -105,6 +105,71 @@ exports.addEmployee = async (req, res) => {
   }
 };
 
+exports.updateEmployee = async (req, res) => {
+  try {
+    // get id from params
+    const id = req.params.id;
+    // validate id
+    if (!id) {
+      res.status(401).json({
+        success: false,
+        message: "id not found",
+      });
+    }
+    // get name and description
+    const {
+      firstName,
+      lastName,
+      email,
+      jobRole,
+      department,
+      contact,
+      salary,
+      profileImg,
+    } = req.body;
+    // console.log("Got name and description: \n", name, description);
+    // validate name
+    if (
+      !firstName ||
+      !lastName ||
+      !email ||
+      !jobRole ||
+      !department
+    ) {
+      res.status(401).json({
+        success: false,
+        message: "Fill all the required fields",
+      });
+    }
+    // update data in database
+    const updatedEmployee = await Employee.findByIdAndUpdate(
+      id,
+      {
+        firstName,
+        lastName,
+        email,
+        jobRole,
+        department,
+        contact,
+        salary,
+        profileImg,
+      },
+      { new: true }
+    ).populate("details").populate("department").exec();
+    res.status(200).json({
+      success: true,
+      message: "Employee updated successfully",
+      updatedData: updatedEmployee,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      message: "Unable to update the employee",
+      error: error.message,
+    });
+  }
+};
+
 exports.removeEmployee = async (req, res) => {
   try {
     const { empId } = req.params;
@@ -174,11 +239,11 @@ exports.getEmployeeById = async (req, res) => {
       .populate("department")
       .populate("details")
       .exec();
-    if(!employee){
-      res.status(401).json({
+    if (!employee) {
+      return res.status(401).json({
         success: false,
-        message: "employee with given id does not exists"
-      })
+        message: "employee with given id does not exists",
+      });
     }
     res.status(200).json({
       success: true,
@@ -186,7 +251,7 @@ exports.getEmployeeById = async (req, res) => {
       data: employee,
     });
   } catch (error) {
-    console.log("Error while fetching employee by id", error)
+    console.log("Error while fetching employee by id", error);
     res.status(501).json({
       success: false,
       message: "Unable to get emplyee details please try again",

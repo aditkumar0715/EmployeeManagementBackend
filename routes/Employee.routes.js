@@ -8,6 +8,7 @@ const {
   removeEmployee,
   getEmployee,
   getEmployeeById,
+  updateEmployee,
 } = require("../controllers/Employee.controller");
 
 // middlewares
@@ -19,5 +20,6 @@ router.post("/add", auth, isEmployer, addEmployee);
 router.delete("/remove/:empId", auth, isEmployer, removeEmployee);
 router.get("/get/:id", auth, isEmployer, getEmployeeById);
 router.get("/get", auth, isEmployer, paginate(Employee, populateFields), getEmployee);
+router.put("/update/:id", auth, isEmployer, updateEmployee);
 
 module.exports = router;
