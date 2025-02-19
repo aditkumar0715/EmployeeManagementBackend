@@ -1,5 +1,5 @@
 const Task = require("../models/Task.model");
-const Employee = require("../models/Employee.model");
+const User = require("../models/User.model");
 const mongoose = require("mongoose");
 
 exports.createTask = async (req, res) => {
@@ -20,23 +20,23 @@ exports.createTask = async (req, res) => {
       });
     }
 
-    // validate employeeId
-    let employeeId = undefined;
+    // validate userId
+    let userId = undefined;
     try {
-      employeeId = new mongoose.Types.ObjectId(assignedTo);
+      userId = new mongoose.Types.ObjectId(assignedTo);
     } catch (error) {
       return res.status(401).json({
         success: false,
-        message: "Invalid Employee Id",
+        message: "Invalid User Id",
       });
     }
 
-    const employee = await Employee.findById(employeeId);
+    const user = await User.findById(userId);
 
-    if (!employee) {
+    if (!user) {
       return res.status(401).json({
         success: false,
-        message: "Employee id did not match. cannot assign task",
+        message: "User id did not match. cannot assign task",
       });
     }
 

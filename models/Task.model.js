@@ -31,12 +31,11 @@ const taskSchema = mongoose.Schema(
     },
     assignedTo: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Employee",
+      ref: "User",
       required: true,
     },
     attatchments: {
       type: [String],
-      
     },
   },
   { timestamps: true }
