@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const taskSchema = mongoose.Schema(
   {
     taskId: {
-      type: String,
+      type: Number,
       required: true,
       trim: true,
       unique: true,

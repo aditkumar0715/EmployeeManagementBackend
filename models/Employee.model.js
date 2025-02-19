@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const employeeSchema = mongoose.Schema(
   {
     employeeId: {
-      type: String,
+      type: Number,
       required: true,
       trim: true,
     },

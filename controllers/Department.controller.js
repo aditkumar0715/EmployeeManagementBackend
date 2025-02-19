@@ -4,16 +4,16 @@ const Department = require("../models/Department.model");
 exports.createDepartment = async (req, res) => {
   try {
     // get name and description of the department
-    const { name, description = "", status = false } = req.body;
+    const { departmentId, name, description = "", status = false } = req.body;
     // validation
-    if (!name) {
+    if (!name || !departmentId) {
       res.status(401).json({
         success: false,
-        message: "name is a required",
+        message: "name and departmentId is a required",
       });
     }
     // create department in database
-    const department = await Department.create({ name, description, status });
+    const department = await Department.create({ departmentId, name, description, status });
     // console.log(department);
     // send response
     res.status(200).json({
