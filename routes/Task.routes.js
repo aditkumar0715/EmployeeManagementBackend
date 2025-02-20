@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Task = require("../models/Task.model");
-const populateFields = ["assignedTo"];
+const populateFields = {path:"assignedTo", populate:{path:"department details", select: "-password -createdAt -updatedAt"}};
 
 const {
   createTask,
