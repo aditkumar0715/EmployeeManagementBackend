@@ -1,7 +1,9 @@
 const Employee = require("../models/Employee.model");
 const User = require("../models/User.model");
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
 const Department = require("../models/Department.model");
+const { encrypt, decrypt } = require("../utils/encrypt");
+
 
 exports.addEmployee = async (req, res) => {
   try {
@@ -65,7 +67,8 @@ exports.addEmployee = async (req, res) => {
     }
 
     // hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = encrypt(password);
 
     const user = await User.create({
       firstName,
@@ -256,6 +259,9 @@ exports.getEmployeeById = async (req, res) => {
         message: "employee with given id does not exists",
       });
     }
+
+    employee.details.password = decrypt(employee.details.password);
+    
     res.status(200).json({
       success: true,
       message: "fetched employee details",
