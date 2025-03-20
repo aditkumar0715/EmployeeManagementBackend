@@ -5,11 +5,20 @@ const employeeSchema = mongoose.Schema(
     employeeId: {
       type: Number,
       required: true,
+      unique: true,
       trim: true,
     },
     jobRole: {
       type: String,
       required: true,
+      trim: true,
+    },
+    contact: {
+      type: String,
+      trim: true,
+    },
+    salary: {
+      type: String,
       trim: true,
     },
     department: {
@@ -24,14 +33,6 @@ const employeeSchema = mongoose.Schema(
     tasks: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Task",
-    },
-    contact: {
-      type: String,
-      trim: true,
-    },
-    salary: {
-      type: String,
-      trim: true,
     },
   },
   { timestamps: true }

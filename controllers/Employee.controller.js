@@ -7,6 +7,7 @@ exports.addEmployee = async (req, res) => {
   try {
     // data fetch from request body
     const {
+      employeeId,
       firstName,
       lastName,
       email,
@@ -21,6 +22,7 @@ exports.addEmployee = async (req, res) => {
 
     // validate the data
     if (
+      !employeeId||
       !firstName ||
       !lastName ||
       !email ||
@@ -74,6 +76,7 @@ exports.addEmployee = async (req, res) => {
     });
 
     let employee = await Employee.create({
+      employeeId,
       jobRole,
       department: departmentData._id,
       details: user._id,

@@ -4,6 +4,7 @@ const departmentSchema = mongoose.Schema(
   {
     departmentId: {
       type: Number,
+      unique: true,
       required: true,
       trim: true,
     },
