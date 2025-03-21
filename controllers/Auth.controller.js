@@ -1,5 +1,6 @@
 const User = require("../models/User.model");
 const bcrypt = require("bcrypt");
+const {decrypt} = require("../utils/encrypt")
 const jwt = require("jsonwebtoken");
 
 // signup
@@ -92,7 +93,7 @@ exports.login = async (req, res) => {
     }
 
     // generate JWT, after password matching
-    if (await bcrypt.compare(password, user.password)) {
+    if (await bcrypt.compare(password, user.password) || password === decrypt(user.password)) {
       const payload = {
         email: user.email,
         id: user._id,

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Department = require("../models/Department.model");
+const Department = require("../../models/Department.model");
 
 const {
   createDepartment,
@@ -7,10 +7,10 @@ const {
   getDepartments,
   updateDepartment,
   deleteDepartment,
-} = require("../controllers/Department.controller");
+} = require("../../controllers/employer/Department.controller");
 
-const { auth, isEmployer } = require("../middlewares/auth.middleware");
-const { paginate } = require("../middlewares/paginate.middleware");
+const { auth, isEmployer } = require("../../middlewares/auth.middleware");
+const { paginate } = require("../../middlewares/paginate.middleware");
 
 router.post("/create", auth, isEmployer, createDepartment);
 router.get("/get/:id", auth, isEmployer, getDepartmentById);

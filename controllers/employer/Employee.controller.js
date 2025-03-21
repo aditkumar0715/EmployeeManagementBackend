@@ -1,9 +1,8 @@
-const Employee = require("../models/Employee.model");
-const User = require("../models/User.model");
+const Employee = require("../../models/Employee.model");
+const User = require("../../models/User.model");
 // const bcrypt = require("bcrypt");
-const Department = require("../models/Department.model");
-const { encrypt, decrypt } = require("../utils/encrypt");
-
+const Department = require("../../models/Department.model");
+const { encrypt, decrypt } = require("../../utils/encrypt");
 
 exports.addEmployee = async (req, res) => {
   try {
@@ -24,7 +23,7 @@ exports.addEmployee = async (req, res) => {
 
     // validate the data
     if (
-      !employeeId||
+      !employeeId ||
       !firstName ||
       !lastName ||
       !email ||
@@ -148,14 +147,13 @@ exports.updateEmployee = async (req, res) => {
 
     // update data in database
 
-
     // update details
     const updatedDetails = await User.findByIdAndUpdate(
       employee.details,
       { firstName, lastName, email, profileImg },
       { new: true }
     );
-    
+
     // update employee
     const updatedEmployee = await Employee.findByIdAndUpdate(
       id,
@@ -261,7 +259,7 @@ exports.getEmployeeById = async (req, res) => {
     }
 
     employee.details.password = decrypt(employee.details.password);
-    
+
     res.status(200).json({
       success: true,
       message: "fetched employee details",

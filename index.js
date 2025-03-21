@@ -7,10 +7,10 @@ const { connectCloudinary } = require("./config/cloudinary");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
-const userRoutes = require("./routes/User.routes");
-const departmentRoutes = require("./routes/Department.routes");
-const employeeRoutes = require("./routes/Employee.routes");
-const taskRoutes = require("./routes/Task.routes");
+const userRoutes = require("./routes/employer/User.routes");
+const departmentRoutes = require("./routes/employer/Department.routes");
+const employeeRoutes = require("./routes/employer/Employee.routes");
+const taskRoutes = require("./routes/employer/Task.routes");
 
 //load config from env file
 require("dotenv").config();
@@ -24,7 +24,7 @@ connectCloudinary();
 
 // middlewares
 app.use(express.json());
-app.use(express.static("public"))
+app.use(express.static("public"));
 app.use(cookieParser());
 app.use(
   cors({

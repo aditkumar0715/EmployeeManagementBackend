@@ -1,5 +1,5 @@
-const Task = require("../models/Task.model");
-const Employee = require("../models/Employee.model");
+const Task = require("../../models/Task.model");
+const Employee = require("../../models/Employee.model");
 const mongoose = require("mongoose");
 
 exports.createTask = async (req, res) => {
@@ -141,7 +141,6 @@ exports.updateTask = async (req, res) => {
       message: "Task updated successfully",
       updatedTask,
     });
-    
   } catch (error) {
     res.status(501).json({
       success: false,

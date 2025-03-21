@@ -1,4 +1,4 @@
-const Department = require("../models/Department.model");
+const Department = require("../../models/Department.model");
 
 // create department controller
 exports.createDepartment = async (req, res) => {
@@ -13,7 +13,12 @@ exports.createDepartment = async (req, res) => {
       });
     }
     // create department in database
-    const department = await Department.create({ departmentId, name, description, status });
+    const department = await Department.create({
+      departmentId,
+      name,
+      description,
+      status,
+    });
     // console.log(department);
     // send response
     res.status(200).json({
