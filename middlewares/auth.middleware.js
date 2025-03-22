@@ -21,7 +21,7 @@ exports.auth = async (req, res, next) => {
 
     const decode = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     // console.log("Printing decode", decode);
-    const user = await User.findById(decode?.id).select("-password");
+    const user = await User.findById(decode?.id).select("-password -__v");
     // console.log("printing the user", user);
     if (!user) {
       res.status(401).json({

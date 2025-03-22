@@ -7,10 +7,12 @@ const { connectCloudinary } = require("./config/cloudinary");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
-const userRoutes = require("./routes/employer/User.routes");
-const departmentRoutes = require("./routes/employer/Department.routes");
-const employeeRoutes = require("./routes/employer/Employee.routes");
-const taskRoutes = require("./routes/employer/Task.routes");
+const userRoutes = require("./routes/User.routes");
+const employerDeptRoutes = require("./routes/employer/Department.routes");
+const employerEmpRoutes = require("./routes/employer/Employee.routes");
+const employerTaskRoutes = require("./routes/employer/Task.routes");
+const employeeDetailsRoutes = require("./routes/employee/Employee.routes");
+const employeeTasks = require("./routes/employee/Task.routes");
 
 //load config from env file
 require("dotenv").config();
@@ -35,9 +37,11 @@ app.use(
 
 // routes
 app.use("/api/v1/auth", userRoutes);
-app.use("/api/v1/department", departmentRoutes);
-app.use("/api/v1/employee", employeeRoutes);
-app.use("/api/v1/task", taskRoutes);
+app.use("/api/v1/department", employerDeptRoutes);
+app.use("/api/v1/employee", employerEmpRoutes);
+app.use("/api/v1/task", employerTaskRoutes);
+app.use("/api/v1/details", employeeDetailsRoutes);
+app.use("/api/v1/empTasks", employeeTasks);
 
 // default route
 app.get("/", (req, res) => {
