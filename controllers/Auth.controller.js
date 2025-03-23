@@ -1,6 +1,6 @@
 const User = require("../models/User.model");
 const bcrypt = require("bcrypt");
-const {decrypt} = require("../utils/encrypt")
+const { decrypt } = require("../utils/encrypt");
 const jwt = require("jsonwebtoken");
 
 // signup
@@ -93,7 +93,10 @@ exports.login = async (req, res) => {
     }
 
     // generate JWT, after password matching
-    if (await bcrypt.compare(password, user.password) || password === decrypt(user.password)) {
+    if (
+      (await bcrypt.compare(password, user.password)) ||
+      password === decrypt(user.password)
+    ) {
       const payload = {
         email: user.email,
         id: user._id,
@@ -149,5 +152,54 @@ exports.logout = async (req, res) => {
       message: "Unable to logout",
       error: error.message,
     });
+  }
+};
+
+exports.getUserDetails = async (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "fetched my details",
+    data: req.user,
+  });
+};
+
+exports.updateUserDetails = async (req, res) => {
+  try {
+    // take required details from the user
+    const { firstName, lastName, email, profileImg } = req.body;
+
+    // validation
+    if (!firstName || !lastName || !email || !profileImg)
+      return res.status(402).json({
+        success: false,
+        message: "All fields are required",
+      });
+
+    const updatedDetails = await User.findByIdAndUpdate(
+      req.user._id,
+      { firstName, lastName, email, profileImg },
+      { new: true }
+    );
+
+    if (!updatedDetails)
+      return res
+        .status(402)
+        .json({
+          success: false,
+          message: "some error occured please try again",
+        });
+
+    return res.status(200).json({
+      success: true,
+      message: "updated user details",
+      updatedData: updatedDetails,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(501).json({
+      success: false,
+      message: "unable to update user details",
+      error: error.message,
+    })
   }
 };
