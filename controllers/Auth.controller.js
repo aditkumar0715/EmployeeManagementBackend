@@ -1,6 +1,6 @@
 const User = require("../models/User.model");
 const bcrypt = require("bcrypt");
-const { decrypt } = require("../utils/encrypt");
+const { decrypt, encrypt } = require("../utils/encrypt");
 const jwt = require("jsonwebtoken");
 
 // signup
@@ -182,12 +182,10 @@ exports.updateUserDetails = async (req, res) => {
     );
 
     if (!updatedDetails)
-      return res
-        .status(402)
-        .json({
-          success: false,
-          message: "some error occured please try again",
-        });
+      return res.status(402).json({
+        success: false,
+        message: "some error occured please try again",
+      });
 
     return res.status(200).json({
       success: true,
@@ -200,6 +198,70 @@ exports.updateUserDetails = async (req, res) => {
       success: false,
       message: "unable to update user details",
       error: error.message,
-    })
+    });
+  }
+};
+
+exports.updateUserPassword = async (req, res) => {
+  try {
+    // take required details from the user
+    const { oldPassword, newPassword, confirmNewPassword } = req.body;
+    const { accountType, _id } = req.user;
+
+    // validation
+    if (!oldPassword || !newPassword || !confirmNewPassword)
+      return res.status(402).json({
+        success: false,
+        message: "All fields are required",
+      });
+
+    if (!newPassword === confirmNewPassword)
+      return res.status(401).json({
+        success: false,
+        message: "new password and confirm new passwor did not match",
+      });
+
+    const userData = await User.findById(_id);
+    let dbResponse = null;
+    if (accountType === "Employer") {
+      if (!(await bcrypt.compare(oldPassword, userData.password)))
+        return res.status(402).json({
+          success: false,
+          message: "oldPassword is not correct",
+        });
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      dbResponse = await User.findByIdAndUpdate(_id, {
+        password: hashedPassword,
+      });
+    } else {
+      const password = decrypt(userData.password);
+      if (!password === oldPassword)
+        return res.status(402).json({
+          success: false,
+          message: "oldPassword is not correct",
+        });
+      const encryptedPassword = encrypt(newPassword);
+      dbResponse = await User.findByIdAndUpdate(_id, {
+        password: encryptedPassword,
+      });
+    }
+
+    if (!dbResponse)
+      return res.status(402).json({
+        success: false,
+        message: "some error occured when updating new password",
+      });
+
+    return res.status(200).json({
+      success: true,
+      message: "updated user password",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(501).json({
+      success: false,
+      message: "unable to update user password",
+      error: error.message,
+    });
   }
 };

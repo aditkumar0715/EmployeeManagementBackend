@@ -12,7 +12,8 @@ const employerDeptRoutes = require("./routes/employer/Department.routes");
 const employerEmpRoutes = require("./routes/employer/Employee.routes");
 const employerTaskRoutes = require("./routes/employer/Task.routes");
 const employeeDetailsRoutes = require("./routes/employee/Employee.routes");
-const employeeTasks = require("./routes/employee/Task.routes");
+const employeeTaskRoutes = require("./routes/employee/Task.routes");
+const feedbackRoutes   = require("./routes/Feedback.routes")
 
 //load config from env file
 require("dotenv").config();
@@ -41,7 +42,8 @@ app.use("/api/v1/department", employerDeptRoutes);
 app.use("/api/v1/employee", employerEmpRoutes);
 app.use("/api/v1/task", employerTaskRoutes);
 app.use("/api/v1/details", employeeDetailsRoutes);
-app.use("/api/v1/empTasks", employeeTasks);
+app.use("/api/v1/empTasks", employeeTaskRoutes);
+app.use("/api/v1/", feedbackRoutes);
 
 // default route
 app.get("/", (req, res) => {
