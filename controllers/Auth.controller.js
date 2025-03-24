@@ -93,10 +93,11 @@ exports.login = async (req, res) => {
     }
 
     // generate JWT, after password matching
-    if (
-      (await bcrypt.compare(password, user.password)) ||
-      password === decrypt(user.password)
-    ) {
+    const isPasswordMatched =
+      user.accountType === "Employer"
+        ? await bcrypt.compare(password, user.password)
+        : password === decrypt(user.password);
+    if (isPasswordMatched) {
       const payload = {
         email: user.email,
         id: user._id,

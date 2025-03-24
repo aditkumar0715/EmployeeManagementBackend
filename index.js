@@ -1,8 +1,10 @@
+//load config from env file
+require("dotenv").config();
+
 const express = require("express");
 const app = express();
 
 const { dbConnect } = require("./config/database");
-const { connectCloudinary } = require("./config/cloudinary");
 
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -13,17 +15,12 @@ const employerEmpRoutes = require("./routes/employer/Employee.routes");
 const employerTaskRoutes = require("./routes/employer/Task.routes");
 const employeeDetailsRoutes = require("./routes/employee/Employee.routes");
 const employeeTaskRoutes = require("./routes/employee/Task.routes");
-const feedbackRoutes   = require("./routes/Feedback.routes")
+const feedbackRoutes = require("./routes/Feedback.routes");
 
-//load config from env file
-require("dotenv").config();
 const PORT = process.env.PORT || 5000;
 
 // connect to the database
 dbConnect();
-
-// connect to cloudinary
-connectCloudinary();
 
 // middlewares
 app.use(express.json());

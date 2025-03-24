@@ -1,6 +1,11 @@
 const router = require("express").Router();
 
-const { createFeedback, getAllFeedbacks, getOneFeedback } = require("../controllers/Feedback.controller");
+const {
+  createFeedback,
+  getAllFeedbacks,
+  getOneFeedback,
+  deleteFeedback,
+} = require("../controllers/Feedback.controller");
 const {
   isEmployer,
   auth,
@@ -10,5 +15,6 @@ const {
 router.post("/feedback/create", auth, isEmployee, createFeedback);
 router.get("/feedback", auth, isEmployer, getAllFeedbacks);
 router.get("/feedback/:id", auth, isEmployer, getOneFeedback);
+router.delete("/feedback/:id", auth, isEmployer, deleteFeedback);
 
 module.exports = router;
