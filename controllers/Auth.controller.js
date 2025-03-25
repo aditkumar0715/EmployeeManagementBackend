@@ -216,7 +216,7 @@ exports.updateUserPassword = async (req, res) => {
         message: "All fields are required",
       });
 
-    if (!newPassword === confirmNewPassword)
+    if (newPassword !== confirmNewPassword)
       return res.status(401).json({
         success: false,
         message: "new password and confirm new passwor did not match",
@@ -236,7 +236,8 @@ exports.updateUserPassword = async (req, res) => {
       });
     } else {
       const password = decrypt(userData.password);
-      if (!password === oldPassword)
+
+      if (password !== oldPassword)
         return res.status(402).json({
           success: false,
           message: "oldPassword is not correct",

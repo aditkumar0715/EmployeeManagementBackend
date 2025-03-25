@@ -12,9 +12,9 @@ const {
   isEmployee,
 } = require("../middlewares/auth.middleware");
 
-router.post("/feedback/create", auth, isEmployee, createFeedback);
-router.get("/feedback", auth, isEmployer, getAllFeedbacks);
-router.get("/feedback/:id", auth, isEmployer, getOneFeedback);
-router.delete("/feedback/:id", auth, isEmployer, deleteFeedback);
+router.post("/create", auth, isEmployee, createFeedback);
+router.get("/", auth, isEmployer, getAllFeedbacks);
+router.get("/:id", auth, isEmployer, getOneFeedback);
+router.delete("/:id", auth, isEmployer, deleteFeedback);
 
 module.exports = router;
